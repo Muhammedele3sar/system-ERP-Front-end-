@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>التقارير - نظام إدارة الأعمال</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-chart-line"></i>
+                <span>نظام الأعمال</span>
+            </div>
+            <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item"><i class="fas fa-home"></i><span>لوحة التحكم</span></a>
+            <a href="sales.html" class="nav-item"><i class="fas fa-shopping-cart"></i><span>المبيعات</span></a>
+            <a href="purchases.html" class="nav-item"><i class="fas fa-truck"></i><span>المشتريات</span></a>
+            <a href="inventory.html" class="nav-item"><i class="fas fa-warehouse"></i><span>المخازن</span></a>
+            <a href="accounts.html" class="nav-item"><i class="fas fa-calculator"></i><span>الحسابات</span></a>
+            <a href="customers.html" class="nav-item"><i class="fas fa-users"></i><span>العملاء</span></a>
+            <a href="products.html" class="nav-item"><i class="fas fa-box"></i><span>المنتجات</span></a>
+            <a href="reports.html" class="nav-item active"><i class="fas fa-chart-bar"></i><span>التقارير</span></a>
+            <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i><span>الإعدادات</span></a>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="#" class="nav-item" id="logoutBtn"><i class="fas fa-sign-out-alt"></i><span>تسجيل الخروج</span></a>
+        </div>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="mobile-toggle" id="mobileToggle"><i class="fas fa-bars"></i></button>
+                <h2>التقارير</h2>
+            </div>
+        </header>
+        
+        <!-- Reports Content -->
+        <div class="page-content">
+            <div class="page-header">
+                <div class="page-title">
+                    <h1>التقارير المالية وتقارير الأداء</h1>
+                    <p>تحليلات ورسوم بيانية لأداء أعمالك</p>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="filters-section">
+                <div class="filter-group">
+                    <label>من تاريخ</label>
+                    <input type="date" id="dateFrom">
+                </div>
+                <div class="filter-group">
+                    <label>إلى تاريخ</label>
+                    <input type="date" id="dateTo">
+                </div>
+                <button class="btn-primary" id="generateReportBtn">
+                    <i class="fas fa-sync"></i>
+                    توليد التقرير
+                </button>
+            </div>
+
+            <div class="dashboard-grid" style="grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="dashboard-card">
+                    <div class="card-header"><h3>تقرير المبيعات</h3></div>
+                    <div class="card-body">
+                        <canvas id="salesReportChart"></canvas>
+                    </div>
+                </div>
+                <div class="dashboard-card">
+                    <div class="card-header"><h3>تقرير الأرباح</h3></div>
+                    <div class="card-body">
+                        <canvas id="profitReportChart"></canvas>
+                    </div>
+                </div>
+                <div class="dashboard-card">
+                    <div class="card-header"><h3>المنتجات الأكثر مبيعاً</h3></div>
+                    <div class="card-body" id="topProductsReport">
+                        <!-- Top products list will be here -->
+                    </div>
+                </div>
+                 <div class="dashboard-card">
+                    <div class="card-header"><h3>العملاء الأكثر شراءً</h3></div>
+                    <div class="card-body" id="topCustomersReport">
+                        <!-- Top customers list will be here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/reports.js"></script>
+</body>
+</html>

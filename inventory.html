@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المخازن - نظام إدارة الأعمال</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-chart-line"></i>
+                <span>نظام الأعمال</span>
+            </div>
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="dashboard.html" class="nav-item"><i class="fas fa-home"></i><span>لوحة التحكم</span></a>
+            <a href="sales.html" class="nav-item"><i class="fas fa-shopping-cart"></i><span>المبيعات</span></a>
+            <a href="purchases.html" class="nav-item"><i class="fas fa-truck"></i><span>المشتريات</span></a>
+            <a href="inventory.html" class="nav-item active"><i class="fas fa-warehouse"></i><span>المخازن</span></a>
+            <a href="accounts.html" class="nav-item"><i class="fas fa-calculator"></i><span>الحسابات</span></a>
+            <a href="customers.html" class="nav-item"><i class="fas fa-users"></i><span>العملاء</span></a>
+            <a href="products.html" class="nav-item"><i class="fas fa-box"></i><span>المنتجات</span></a>
+            <a href="reports.html" class="nav-item"><i class="fas fa-chart-bar"></i><span>التقارير</span></a>
+            <a href="settings.html" class="nav-item"><i class="fas fa-cog"></i><span>الإعدادات</span></a>
+        </nav>
+        
+        <div class="sidebar-footer">
+            <a href="#" class="nav-item" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>تسجيل الخروج</span>
+            </a>
+        </div>
+    </aside>
+    
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="mobile-toggle" id="mobileToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h2>إدارة المخازن</h2>
+            </div>
+            
+            <div class="topbar-right">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="بحث..." id="searchInput">
+                </div>
+                
+                <button class="notification-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">5</span>
+                </button>
+                
+                <div class="user-menu">
+                    <img src="https://ui-avatars.com/api/?name=Admin&background=4f46e5&color=fff" alt="User">
+                    <div class="user-info">
+                        <span class="user-name">المدير</span>
+                        <span class="user-role">مدير النظام</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Inventory Content -->
+        <div class="page-content">
+            <div class="page-header">
+                <div class="page-title">
+                    <h1>المخزون</h1>
+                    <p>إدارة ومراقبة المخزون والحركات</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn-secondary" id="transferBtn">
+                        <i class="fas fa-exchange-alt"></i>
+                        تحويل بين المخازن
+                    </button>
+                    <button class="btn-primary" id="adjustmentBtn">
+                        <i class="fas fa-edit"></i>
+                        تسوية مخزون
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Stats -->
+            <div class="stats-row">
+                <div class="stat-box">
+                    <i class="fas fa-boxes"></i>
+                    <div>
+                        <h4>إجمالي الأصناف</h4>
+                        <p id="totalItems">0</p>
+                    </div>
+                </div>
+                <div class="stat-box">
+                    <i class="fas fa-dollar-sign"></i>
+                    <div>
+                        <h4>قيمة المخزون</h4>
+                        <p id="inventoryValue">0 ج.م</p>
+                    </div>
+                </div>
+                <div class="stat-box warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div>
+                        <h4>أصناف منخفضة</h4>
+                        <p id="lowStockItems">0</p>
+                    </div>
+                </div>
+                <div class="stat-box danger">
+                    <i class="fas fa-times-circle"></i>
+                    <div>
+                        <h4>أصناف نفذت</h4>
+                        <p id="outOfStockItems">0</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="stock">المخزون الحالي</button>
+                <button class="tab-btn" data-tab="movements">حركات المخزون</button>
+                <button class="tab-btn" data-tab="warehouses">المخازن</button>
+            </div>
+            
+            <!-- Stock Tab -->
+            <div class="tab-content active" id="stockTab">
+                <div class="filters-section">
+                    <div class="filter-group">
+                        <label>المخزن</label>
+                        <select id="warehouseFilter">
+                            <option value="">جميع المخازن</option>
+                            <option value="1">المخزن الرئيسي</option>
+                            <option value="2">المخزن الفرعي</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>الفئة</label>
+                        <select id="categoryFilter">
+                            <option value="">جميع الفئات</option>
+                            <option value="electronics">إلكترونيات</option>
+                            <option value="clothing">ملابس</option>
+                            <option value="food">مواد غذائية</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>الحالة</label>
+                        <select id="stockStatusFilter">
+                            <option value="">الكل</option>
+                            <option value="available">متوفر</option>
+                            <option value="low">منخفض</option>
+                            <option value="out">نفذ</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="content-card">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>كود المنتج</th>
+                                    <th>اسم المنتج</th>
+                                    <th>المخزن</th>
+                                    <th>الكمية المتاحة</th>
+                                    <th>الحد الأدنى</th>
+                                    <th>سعر الشراء</th>
+                                    <th>سعر البيع</th>
+                                    <th>الحالة</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="stockTableBody">
+                                <!-- Data will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Movements Tab -->
+            <div class="tab-content" id="movementsTab">
+                <div class="filters-section">
+                    <div class="filter-group">
+                        <label>من تاريخ</label>
+                        <input type="date" id="movementDateFrom">
+                    </div>
+                    <div class="filter-group">
+                        <label>إلى تاريخ</label>
+                        <input type="date" id="movementDateTo">
+                    </div>
+                    <div class="filter-group">
+                        <label>نوع الحركة</label>
+                        <select id="movementTypeFilter">
+                            <option value="">الكل</option>
+                            <option value="in">وارد</option>
+                            <option value="out">صادر</option>
+                            <option value="transfer">تحويل</option>
+                            <option value="adjustment">تسوية</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="content-card">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>التاريخ</th>
+                                    <th>المنتج</th>
+                                    <th>نوع الحركة</th>
+                                    <th>الكمية</th>
+                                    <th>من</th>
+                                    <th>إلى</th>
+                                    <th>المستخدم</th>
+                                    <th>ملاحظات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="movementsTableBody">
+                                <!-- Data will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Warehouses Tab -->
+            <div class="tab-content" id="warehousesTab">
+                <div class="page-header">
+                    <div class="page-title">
+                        <h3>المخازن المتاحة</h3>
+                    </div>
+                    <button class="btn-primary" id="newWarehouseBtn">
+                        <i class="fas fa-plus"></i>
+                        مخزن جديد
+                    </button>
+                </div>
+                
+                <div class="warehouses-grid" id="warehousesGrid">
+                    <!-- Warehouses will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Transfer Modal -->
+    <div class="modal" id="transferModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>تحويل بين المخازن</h2>
+                <button class="close-modal" id="closeTransferModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <form id="transferForm">
+                    <div class="form-group">
+                        <label>المنتج</label>
+                        <select id="transferProduct" required>
+                            <option value="">اختر المنتج</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>من مخزن</label>
+                            <select id="fromWarehouse" required>
+                                <option value="">اختر المخزن</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>إلى مخزن</label>
+                            <select id="toWarehouse" required>
+                                <option value="">اختر المخزن</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>الكمية</label>
+                        <input type="number" id="transferQuantity" min="1" required>
+                        <small>الكمية المتاحة: <span id="availableQuantity">0</span></small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>ملاحظات</label>
+                        <textarea id="transferNotes" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn-secondary" id="cancelTransferBtn">إلغاء</button>
+                        <button type="submit" class="btn-primary">تنفيذ التحويل</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Adjustment Modal -->
+    <div class="modal" id="adjustmentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>تسوية المخزون</h2>
+                <button class="close-modal" id="closeAdjustmentModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+                <form id="adjustmentForm">
+                    <div class="form-group">
+                        <label>المنتج</label>
+                        <select id="adjustmentProduct" required>
+                            <option value="">اختر المنتج</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>المخزن</label>
+                        <select id="adjustmentWarehouse" required>
+                            <option value="">اختر المخزن</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>الكمية الحالية</label>
+                            <input type="number" id="currentQuantity" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>الكمية الجديدة</label>
+                            <input type="number" id="newQuantity" min="0" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>السبب</label>
+                        <select id="adjustmentReason" required>
+                            <option value="">اختر السبب</option>
+                            <option value="damage">تلف</option>
+                            <option value="loss">فقد</option>
+                            <option value="count">جرد</option>
+                            <option value="other">أخرى</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>ملاحظات</label>
+                        <textarea id="adjustmentNotes" rows="3" required></textarea>
+                    </div>
+                    
+                    <div class="modal-footer">
+                        <button type="button" class="btn-secondary" id="cancelAdjustmentBtn">إلغاء</button>
+                        <button type="submit" class="btn-primary">حفظ التسوية</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/app.js"></script>
+    <script src="js/inventory.js"></script>
+</body>
+</html>
